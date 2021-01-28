@@ -28,6 +28,7 @@ class GameScene: SKScene {
         createButtonLeft()
         createButtonRight()
         createApple()
+        createEdgeBody()
         
         snake = Snake(atPoint: CGPoint(x: view.scene!.frame.midX, y: view.scene!.frame.midY))
         self.addChild(snake!)
@@ -104,6 +105,11 @@ class GameScene: SKScene {
         let apple = Apple(position: CGPoint(x: randX, y: randY))
         self.addChild(apple)
     }
+    
+    func createEdgeBody() {
+        let body = EdgeBody(maxX: Int(view!.scene!.frame.maxX), maxY: Int(view!.scene!.frame.maxY))
+        self.addChild(body)
+    }
 }
 
 extension GameScene: SKPhysicsContactDelegate {
@@ -120,7 +126,7 @@ extension GameScene: SKPhysicsContactDelegate {
             apple?.removeFromParent()
             createApple()
         case CollisionCategories.EdgeBody:
-            break
+            fatalError("Game over!")
         default:
             break
         }
